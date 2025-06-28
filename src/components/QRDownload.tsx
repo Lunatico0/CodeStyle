@@ -9,7 +9,7 @@ export default function QRDownload({ targetRef }: QRDownloadProps) {
     if (!targetRef.current) return;
     const dataUrl = await toPng(targetRef.current);
     const link = document.createElement('a');
-    link.download = 'qrify-code.png';
+    link.download = 'QRStyles-code.png';
     link.href = dataUrl;
     link.click();
   };

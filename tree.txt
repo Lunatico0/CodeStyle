@@ -1,0 +1,39 @@
+|   .gitignore
+|   astro.config.mjs
+|   package-lock.json
+|   package.json
+|   README.md
+|   tree.txt
+|   tsconfig.json
+|
++---.astro
+|   |   content-assets.mjs
+|   |   content-modules.mjs
+|   |   content.d.ts
+|   |   data-store.json
+|   |   settings.json
+|   |   types.d.ts
+|   |
+|   \---collections
++---.vscode
+|       extensions.json
+|       launch.json
+|
++---public
+|       favicon.svg
+|
+\---src
+    +---assets
+    |       logo-dev.svg
+    |
+    +---components
+    |       ThemeToggle.tsx
+    |
+    +---layouts
+    |       Layout.astro
+    |
+    +---pages
+    |       index.astro
+    |
+    \---styles
+            global.css

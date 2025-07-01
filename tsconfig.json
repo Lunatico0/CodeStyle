@@ -13,11 +13,20 @@
       "@styles/*": [
         "src/styles/*"
       ],
+      "@assets/*": [
+        "src/assets/*"
+      ],
       "@layouts/*": [
         "src/layouts/*"
       ],
       "@components/*": [
         "src/components/*"
+      ],
+      "@editor/*": [
+        "src/components/editor/*"
+      ],
+      "@public/*": [
+        "public/*"
       ]
     },
     "jsx": "react-jsx",

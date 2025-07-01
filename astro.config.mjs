@@ -1,4 +1,3 @@
-// @ts-check
 import { defineConfig } from 'astro/config';
 
 import tailwindcss from '@tailwindcss/vite';
@@ -15,6 +14,7 @@ export default defineConfig({
         "@styles": "/src/styles",
         "@layouts": "/src/layouts",
         "@components": "/src/components",
+        "@editor": "/src/components/editor",
         "@public": "/public",
       },
     },

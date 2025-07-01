@@ -6,28 +6,42 @@
 |   tree.txt
 |   tsconfig.json
 |
-+---.astro
-|   |   content-assets.mjs
-|   |   content-modules.mjs
-|   |   content.d.ts
-|   |   data-store.json
-|   |   settings.json
-|   |   types.d.ts
-|   |
-|   \---collections
-+---.vscode
-|       extensions.json
-|       launch.json
 |
 +---public
-|       favicon.svg
+|   |   favicon.svg
+|   |   frame1.svg
+|   |   logo-dev.svg
+|   |   QRStyles.svg
+|   |
+|   \---assets
+|       \---frames
+|               frame1.svg
+|               frame2.svg
 |
 \---src
-    +---assets
-    |       logo-dev.svg
-    |
     +---components
-    |       ThemeToggle.tsx
+    |   |   FrameWrapper.tsx
+    |   |   QRLogo.tsx
+    |   |
+    |   +---core
+    |   |       QRCustomizer.tsx            X
+    |   |
+    |   +---editor
+    |   |       AccordionSection.tsx        X
+    |   |       FrameGallery.ts             X
+    |   |       FrameSelector.tsx           X
+    |   |       QRColors.tsx                X
+    |   |       QRForm.tsx                  X
+    |   |       QRFrame.tsx                 X
+    |   |       QRStyles.tsx                X
+    |   |
+    |   +---output
+    |   |       QRDownload.tsx              X
+    |   |
+    |   \---preview
+    |           DynamicFrame.tsx            X
+    |           EditableFrame.tsx           X
+    |           QRPreview.tsx               X
     |
     +---layouts
     |       Layout.astro
@@ -37,3 +51,8 @@
     |
     \---styles
             global.css
+
+
+
+Slider para paddings
+Logo en el centro del QR

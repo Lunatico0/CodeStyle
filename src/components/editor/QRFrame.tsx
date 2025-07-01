@@ -1,39 +1,39 @@
 import { useRef } from 'react';
-import frame1 from '@assets/frames/frame1.svg';
-import frame2 from '@assets/frames/frame2.svg';
+import { FRAME_PRESETS } from './FrameGallery';
 
 export default function QRFrame({
-  setFrameUrl,
+  onSelectFrame,
 }: {
-  setFrameUrl: (url: string | null) => void;
+  onSelectFrame: (frameId: string | null) => void;
 }) {
   const inputRef = useRef<HTMLInputElement>(null);
-
-  const predefinedFrames = [
-    { name: "Marco 1", src: typeof frame1 === 'string' ? frame1 : (frame1 as unknown as { default: string }).default ?? (frame1 as any).src },
-    { name: "Marco 2", src: typeof frame2 === 'string' ? frame2 : (frame2 as unknown as { default: string }).default ?? (frame2 as any).src },
-  ];
 
   const handleFile = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
     const url = URL.createObjectURL(file);
-    setFrameUrl(url);
+    onSelectFrame(url);
   };
 
   return (
     <div className="space-y-3">
       <div className="flex gap-2">
-        {predefinedFrames.map((frame) => (
+        {FRAME_PRESETS.map((frame) => (
           <button
-            key={frame.name}
-            onClick={() => setFrameUrl(frame.src)}
+            key={frame.id}
+            onClick={() => onSelectFrame(frame.id)}
             className="border p-1 rounded hover:shadow"
           >
-            <img src={frame.src} alt={frame.name} className="w-16 h-16 object-contain" />
+            {frame.file ? (
+              <img src={frame.file} alt={frame.name} className="w-16 h-16 object-contain" />
+            ) : (
+              <div className="w-16 h-16 flex items-center justify-center text-xs bg-gray-100">
+                {frame.name}
+              </div>
+            )}
           </button>
         ))}
-        <button onClick={() => setFrameUrl(null)} className="text-sm underline">
+        <button onClick={() => onSelectFrame(null)} className="text-sm underline">
           Quitar marco
         </button>
       </div>

@@ -12,7 +12,7 @@ export default function FrameSelector({ onSelect }: { onSelect: (frameId: string
           {frame.file ? (
             <img src={frame.file} alt={frame.name} className="w-20 h-20 object-contain" />
           ) : (
-            <div className="w-20 h-20 bg-gray-200 flex items-center justify-center text-xs">
+            <div className="w-20 h-20 bg-secondary flex items-center justify-center text-xs">
               {frame.name}
             </div>
           )}

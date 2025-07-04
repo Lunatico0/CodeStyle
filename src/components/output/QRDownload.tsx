@@ -1,5 +1,3 @@
-// src/components/output/QRDownload.tsx
-
 import { toPng, toJpeg } from 'html-to-image';
 import { useState } from 'react';
 
@@ -57,7 +55,7 @@ export default function QRDownload({ targetRef }: QRDownloadProps) {
       <button
         onClick={downloadQR}
         disabled={loading}
-        className={`px-4 py-2 rounded transition text-white ${loading ? 'bg-stone-500' : 'bg-stone-700 hover:bg-stone-800'}`}
+        className={`px-4 py-2 rounded transition text-white ${loading ? 'bg-brand-default' : 'bg-brand-light hover:bg-stone-800'}`}
       >
         {loading ? 'Generando...' : `Descargar ${format.toUpperCase()}`}
       </button>

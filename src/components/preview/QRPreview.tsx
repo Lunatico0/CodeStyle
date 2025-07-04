@@ -1,97 +1,102 @@
-import QRCode from 'react-qr-code';
-import { forwardRef } from 'react';
-import DynamicFrame from './DynamicFrame';
-import EditableFrame from './EditableFrame';
+import { forwardRef, useRef } from "react";
+import QRStylingWrapper from "@components/QRStylingWrapper";
+import EditableFrame from "./EditableFrame";
+import DynamicFrame from "./DynamicFrame";
 
 interface QRPreviewProps {
-  value?: string;
-  fgColor?: string;
+  value: string;
   bgColor?: string;
   radius?: number;
+  padding?: number;
+  size?: number;
+  dotsType?: "square" | "dots" | "rounded" | "extra-rounded" | "classy" | "classy-rounded";
+  cornerSquareType?: "square" | "dot" | "extra-rounded" | 'rounded' | 'dots' | 'classy' | 'classy-rounded';
+  cornerDotType?: "square" | "dot" | "rounded" | 'dots' | 'classy' | 'classy-rounded' | 'extra-rounded';
+  logoUrl?: string;
+  logoSize?: number;
+  logoMargin?: number;
+  logoRadius?: number;
   title?: string;
-  titleColor: string;
-  shadow?: string;
-  selectedFrame: string | null;
+  titleColor?: string;
+  bgTitleColor?: string;
+  selectedFrame?: string | null;
+  dotsColor?: string;
+  cornerSquareColor?: string;
+  cornerDotColor?: string;
+  logoBackground?: string;
 }
 
-function getScaleSize(radius: number = 0): number {
-  const baseSize = 100;
-  const minSize = 80;
-  const startShrink = 30;
-  const maxShrink = 100;
+const QRPreview = forwardRef<HTMLDivElement, QRPreviewProps>(
+  (
+    {
+      value,
+      bgColor = "#ffffff",
+      radius = 0,
+      padding = 0,
+      size = 300,
+      dotsType = "dots",
+      cornerSquareType = "dot",
+      cornerDotType = "dot",
+      logoUrl,
+      logoSize = 60,
+      logoMargin = 4,
+      logoRadius = 0,
+      title,
+      titleColor = "#ffffff",
+      bgTitleColor = "#1f2937",
+      selectedFrame = null,
+      dotsColor,
+      cornerSquareColor,
+      cornerDotColor,
+      logoBackground,
+    },
+    ref
+  ) => {
+    const containerRef = useRef<HTMLDivElement>(null);
 
-  if (radius > startShrink) {
-    const percent = Math.min(1, (radius - startShrink) / (maxShrink - startShrink));
-    return baseSize - percent * (baseSize - minSize);
+    const qrCode = (
+      <QRStylingWrapper
+        ref={ref || containerRef}
+        value={value}
+        size={size}
+        bgColor={bgColor}
+        radius={radius}
+        padding={padding}
+        logoUrl={logoUrl}
+        logoSize={logoSize}
+        logoMargin={logoMargin}
+        logoRadius={logoRadius}
+        dotsType={dotsType}
+        cornerSquareType={cornerSquareType}
+        cornerDotType={cornerDotType}
+        dotsColor={dotsColor}
+        cornerSquareColor={cornerSquareColor}
+        cornerDotColor={cornerDotColor}
+        logoBackground={logoBackground}
+      />
+    );
+
+    if (!selectedFrame) return qrCode;
+
+    const sharedProps = {
+      title: title ?? "",
+      bgColor,
+      titleColor,
+      bgTitleColor,
+    };
+
+    return selectedFrame === "editable" ? (
+      <EditableFrame {...sharedProps}>
+        {qrCode}
+      </EditableFrame>
+    ) : (
+      <DynamicFrame frameName={selectedFrame} {...sharedProps}>
+        {qrCode}
+      </DynamicFrame>
+    );
   }
+);
 
-  return baseSize;
-}
+QRPreview.displayName = "QRPreview";
 
-export default forwardRef(function QRPreview(
-  {
-    value,
-    fgColor = '#111111',
-    bgColor = '#ffffff',
-    radius = 0,
-    title = 'QRStyles.io',
-    titleColor = '#000000',
-    shadow = 'md',
-    selectedFrame,
-  }: QRPreviewProps,
-  ref: React.Ref<HTMLDivElement>
-) {
-  const scaleSize = getScaleSize(radius);
-
-  const qrCode = (
-    <QRCode
-      value={value ?? ''}
-      bgColor={bgColor}
-      fgColor={fgColor}
-      className="w-full h-full"
-      style={{
-        width: `${scaleSize}%`,
-        height: `${scaleSize}%`,
-        borderRadius: `${radius * 0.1}px`,
-      }}
-    />
-  );
-
-  return (
-    <div className="flex items-center justify-center self-center">
-      {selectedFrame === 'editable' ? (
-        <EditableFrame
-          title={title}
-          bgColor={bgColor}
-          bgTitleColor={fgColor}
-          titleColor={titleColor}
-          borderRadius={`${radius}px`}
-          shadow={shadow}
-        >
-          <div
-            ref={ref}
-            style={{ backgroundColor: bgColor, borderRadius: `${radius}px` }}
-            className="aspect-square max-w-full flex items-center justify-center self-center z-50"
-          >
-            {qrCode}
-          </div>
-        </EditableFrame>
-      ) : (
-        <DynamicFrame
-          frameName={selectedFrame || ''}
-          title={title}
-          titleColor={titleColor}
-          bgTitleColor={fgColor}
-          bgColor={bgColor}
-        >
-          <div
-            ref={ref}
-            className="aspect-square max-w-full flex items-center justify-center self-center z-50"
-          >
-            {qrCode}
-          </div>
-        </DynamicFrame>
-      )}
-    </div>
-  );
-});
+export default QRPreview;

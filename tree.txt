@@ -20,28 +20,27 @@
 |
 \---src
     +---components
-    |   |   FrameWrapper.tsx
-    |   |   QRLogo.tsx
+    |   |   QRStylingWrapper.tsx
     |   |
     |   +---core
-    |   |       QRCustomizer.tsx            X
+    |   |       QRCustomizer.tsx
     |   |
     |   +---editor
-    |   |       AccordionSection.tsx        X
-    |   |       FrameGallery.ts             X
-    |   |       FrameSelector.tsx           X
-    |   |       QRColors.tsx                X
-    |   |       QRForm.tsx                  X
-    |   |       QRFrame.tsx                 X
-    |   |       QRStyles.tsx                X
+    |   |       AccordionSection.tsx
+    |   |       FrameGallery.ts         X
+    |   |       FrameSelector.tsx       X
+    |   |       QRContent.tsx
+    |   |       QRFrame.tsx             X
+    |   |       QRStyles.tsx
+    |   |       QRAppearance.tsx
     |   |
     |   +---output
-    |   |       QRDownload.tsx              X
+    |   |       QRDownload.tsx          X
     |   |
     |   \---preview
-    |           DynamicFrame.tsx            X
-    |           EditableFrame.tsx           X
-    |           QRPreview.tsx               X
+    |           DynamicFrame.tsx
+    |           EditableFrame.tsx
+    |           QRPreview.tsx
     |
     +---layouts
     |       Layout.astro
@@ -52,7 +51,4 @@
     \---styles
             global.css
 
-
-
-Slider para paddings
-Logo en el centro del QR
+Hacer funcionar Vcard y texto que no funciona hasta que que se ve un texto de 9 12 caracteres

@@ -1,1 +1,19 @@
 @import "tailwindcss";
+
+body {
+  font-family: 'Inter', sans-serif;
+}
+
+/* Definimos paleta de colores propía con tailwind */
+
+@theme {
+  --color-primary: #1f2937;
+  --color-secondary: #eab308; /* gray-200 */
+  --color-claro: #f4f4f5;
+  --color-oscuro: #1c1c1c;
+  --color-contenedor: #111827;
+  --color-brand-default: #79716b; /* stone-500 */
+  --color-brand-light: #44403b; /* stone-700 */
+  --color-brand-dark: #1c1917; /* stone-900 */
+  --color-brand-text: #f4f4f5; /* gray-600 */
+}

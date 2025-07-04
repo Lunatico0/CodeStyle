@@ -13,17 +13,20 @@
       "@styles/*": [
         "src/styles/*"
       ],
-      "@assets/*": [
-        "src/assets/*"
-      ],
       "@layouts/*": [
         "src/layouts/*"
+      ],
+      "@types/*": [
+        "src/types/*"
       ],
       "@components/*": [
         "src/components/*"
       ],
       "@editor/*": [
         "src/components/editor/*"
+      ],
+      "@personalizacion/*": [
+        "src/components/personalizacion/*"
       ],
       "@public/*": [
         "public/*"

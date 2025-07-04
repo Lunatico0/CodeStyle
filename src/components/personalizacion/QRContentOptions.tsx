@@ -1,25 +1,34 @@
 import { useEffect, useState } from "react";
+import QRVCardForm from "./QRVCard/QRVCardForm";
+import QRVCardSelector from "./QRVCard/QRVCardSelector";
+import { buildVCard } from "./QRVCard/QRVCardFunctions";
+import type { QRFormType } from "@types/qrFormTypes";
 
 export type QRType = "text" | "url" | "email" | "wifi" | "vCard";
 
-interface QRContentProps {
+interface QRContentOptionsProps {
   qrType: QRType;
   setQrType: (type: QRType) => void;
   onValueChange: (value: string) => void;
+  form: QRFormType;
+  setForm: React.Dispatch<React.SetStateAction<QRFormType>>;
 }
 
-export default function QRContent({
+export default function QRContentOptions({
   qrType,
   setQrType,
   onValueChange,
-}: QRContentProps) {
-  const [form, setForm] = useState({
-    url: "pittanapatricio.vercel.app",
-    text: "QRstyles",
-    email: { to: "", subject: "", body: "" },
-    wifi: { ssid: "", password: "", type: "WPA", hidden: false },
-    vcard: { name: "", phone: "", company: "", email: "" },
-  });
+  form,
+  setForm
+}: QRContentOptionsProps) {
+
+  const [visibleFields, setVisibleFields] = useState<string[]>([]);
+
+  function ensureMinimumQRLength(content: string, minLength = 12): string {
+    return content.length >= minLength
+      ? content
+      : content.padEnd(minLength, " ");
+  }
 
   useEffect(() => {
     let content = "";
@@ -39,28 +48,20 @@ export default function QRContent({
         const w = form.wifi;
         content = `WIFI:T:${w.type};S:${w.ssid};P:${w.password};${w.hidden ? "H:true;" : ""};`;
         break;
-      case "vcard":
-        const v = form.vcard;
-        content = `BEGIN:VCARD
-          VERSION:3.0
-          FN:${v.name}
-          ORG:${v.company}
-          TEL:${v.phone}
-          EMAIL:${v.email}
-          END:VCARD`;
+      case "vCard":
+        content = buildVCard(form.vCard);
         break;
     }
 
-    onValueChange(content.trim());
-  }, [form, qrType]);
+    onValueChange(ensureMinimumQRLength(content.trim()));
+  }, [form, qrType, visibleFields]);
 
   const inputClass = "p-2 w-full border rounded dark:bg-stone-800";
 
   return (
     <div className="space-y-4">
-      {/* Selector de tipo */}
       <div className="flex flex-wrap gap-2">
-        {(["url", "text", "email", "wifi", "vcard"] as QRType[]).map((type) => (
+        {(["url", "text", "email", "wifi", "vCard"] as QRType[]).map((type) => (
           <button
             key={type}
             onClick={() => setQrType(type)}
@@ -71,7 +72,6 @@ export default function QRContent({
         ))}
       </div>
 
-      {/* Campos dinámicos */}
       {qrType === "text" && (
         <textarea
           rows={3}
@@ -151,33 +151,14 @@ export default function QRContent({
         </>
       )}
 
-      {qrType === "vcard" && (
+      {qrType === "vCard" && (
         <>
-          <input
-            value={form.vcard.name}
-            onChange={(e) => setForm({ ...form, vcard: { ...form.vcard, name: e.target.value } })}
-            placeholder="Nombre completo"
-            className={inputClass}
+          <QRVCardForm
+            form={form.vCard}
+            setForm={(vCard) => setForm({ ...form, vCard })}
+            visibleFields={visibleFields}
           />
-          <input
-            value={form.vcard.phone}
-            onChange={(e) => setForm({ ...form, vcard: { ...form.vcard, phone: e.target.value } })}
-            placeholder="Teléfono"
-            className={inputClass}
-          />
-          <input
-            value={form.vcard.company}
-            onChange={(e) => setForm({ ...form, vcard: { ...form.vcard, company: e.target.value } })}
-            placeholder="Empresa"
-            className={inputClass}
-          />
-          <input
-            type="email"
-            value={form.vcard.email}
-            onChange={(e) => setForm({ ...form, vcard: { ...form.vcard, email: e.target.value } })}
-            placeholder="Email"
-            className={inputClass}
-          />
+          <QRVCardSelector visibleFields={visibleFields} setVisibleFields={setVisibleFields} />
         </>
       )}
     </div>

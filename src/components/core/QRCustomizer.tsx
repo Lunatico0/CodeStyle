@@ -1,10 +1,10 @@
 import { useState, useRef } from "react";
 import AccordionSection, { AccordionProvider } from "@editor/AccordionSection";
 import QRPreview from "@components/preview/QRPreview";
-import QRContent, { type QRType } from "@editor/QRContent";
-import QRSizeAndRadius from "@components/editor/QRStyles.tsx";
-import QRAppearance from "@components/editor/QRAppearance.tsx";
-import QRLogoOptions from "@components/editor/QRLogoOptions.tsx";
+import QRLogoOptions from "@components/personalizacion/QRLogoOptions.tsx";
+import QRStyleOptions from "@components/personalizacion/QRStyleOptions.tsx";
+import QRSizeOptions from "@components/personalizacion/QRSizeOptions.tsx";
+import QRContentOptions, { type QRType } from "@components/personalizacion/QRContentOptions.tsx";
 
 export default function QRCustomizer() {
   const [qrValue, setQrValue] = useState("https://pittanapatricio.vercel.app");
@@ -13,10 +13,32 @@ export default function QRCustomizer() {
   const [cornerSquareColor, setCornerSquareColor] = useState("#111111");
   const [cornerDotColor, setCornerDotColor] = useState("#111111");
   const [qrType, setQrType] = useState<QRType>("url");
+  const [qrForm, setQrForm] = useState({
+    url: "",
+    text: "",
+    email: { to: "", subject: "", body: "" },
+    wifi: { ssid: "", password: "", type: "WPA", hidden: false },
+    vCard: {
+      firstname: "",
+      lastname: "",
+      company: "",
+      job: "",
+      phoneNumber: "",
+      mobileNumber: "",
+      faxNumber: "",
+      email: "",
+      website: "",
+      street: "",
+      city: "",
+      state: "",
+      zip: "",
+      country: "",
+    },
+  });
 
-  const [radius, setRadius] = useState(0);
-  const [padding, setPadding] = useState(2);
-  const [size, setSize] = useState(300);
+  const [radius, setRadius] = useState(25);
+  const [padding, setPadding] = useState(20);
+  const [size, setSize] = useState(350);
 
   const [dotsType, setDotsType] = useState
     <"square" | "dots" | "rounded" | "extra-rounded" | "classy" | "classy-rounded">
@@ -28,7 +50,7 @@ export default function QRCustomizer() {
     <"square" | "dot" | "rounded" | 'dots' | 'classy' | 'classy-rounded' | 'extra-rounded'>
     ("extra-rounded");
 
-  const [logoUrl, setLogoUrl] = useState<string | null>("/Logo-PPdevRound(negro).png");
+  const [logoUrl, setLogoUrl] = useState<string | null>(null);
   const [logoSize, setLogoSize] = useState(120);
   const [logoMargin, setLogoMargin] = useState(4);
   const [logoRadius, setLogoRadius] = useState(0);
@@ -38,9 +60,13 @@ export default function QRCustomizer() {
   const [titleColor, setTitleColor] = useState("#ffffff");
   const [bgTitleColor, setBgTitleColor] = useState("#1f2937");
   const [logoBackground, setLogoBackground] = useState("#ffffff");
-  const [selectedFrame, setSelectedFrame] = useState<string | null>("editable");
+  const [selectedFrame, setSelectedFrame] = useState<string | null>(null);
 
   const qrRef = useRef<HTMLDivElement>(null);
+
+  function handleQrDataChange(value: string): void {
+    setQrValue(value);
+  }
 
   return (
     <div className="flex flex-col-reverse md:flex-row md:items-start gap-8 md:gap-12 w-full justify-between items-center">
@@ -70,16 +96,18 @@ export default function QRCustomizer() {
         <AccordionProvider>
           {/* Contenido del QR */}
           <AccordionSection title="🔢 Contenido del QR">
-            <QRContent
+            <QRContentOptions
               qrType={qrType}
               setQrType={setQrType}
-              onValueChange={setQrValue}
+              onValueChange={handleQrDataChange}
+              form={qrForm}
+              setForm={setQrForm}
             />
           </AccordionSection>
 
           {/* 🎨 Colores */}
           <AccordionSection title="🎨 Estilos y Colores del QR">
-            <QRAppearance
+            <QRStyleOptions
               bgColor={bgColor}
               setBgColor={setBgColor}
               dotsType={dotsType}
@@ -116,7 +144,7 @@ export default function QRCustomizer() {
 
           {/* 🧱 Tamaño y Bordes */}
           <AccordionSection title="🧱 Tamaño y Bordes">
-            <QRSizeAndRadius
+            <QRSizeOptions
               size={size}
               setSize={setSize}
               radius={radius}

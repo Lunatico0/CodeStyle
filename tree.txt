@@ -51,4 +51,4 @@
     \---styles
             global.css
 
-Hacer funcionar Vcard y texto que no funciona hasta que que se ve un texto de 9 12 caracteres
+Faltante titulo, frames, shape (poder redondear el qr)

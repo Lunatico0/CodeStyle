@@ -15,15 +15,14 @@ interface QRPreviewProps {
   logoUrl?: string;
   logoSize?: number;
   logoMargin?: number;
-  logoRadius?: number;
-  title?: string;
+  title?: string | null;
   titleColor?: string;
   bgTitleColor?: string;
   selectedFrame?: string | null;
   dotsColor?: string;
   cornerSquareColor?: string;
   cornerDotColor?: string;
-  logoBackground?: string;
+  titlePosition?: "top" | "bottom" | "left" | "right";
 }
 
 const QRPreview = forwardRef<HTMLDivElement, QRPreviewProps>(
@@ -40,7 +39,6 @@ const QRPreview = forwardRef<HTMLDivElement, QRPreviewProps>(
       logoUrl,
       logoSize = 60,
       logoMargin = 4,
-      logoRadius = 0,
       title,
       titleColor = "#ffffff",
       bgTitleColor = "#1f2937",
@@ -48,11 +46,37 @@ const QRPreview = forwardRef<HTMLDivElement, QRPreviewProps>(
       dotsColor,
       cornerSquareColor,
       cornerDotColor,
-      logoBackground,
+      titlePosition
     },
     ref
   ) => {
     const containerRef = useRef<HTMLDivElement>(null);
+
+    function Title() {
+      const isVertical = titlePosition === "left" || titlePosition === "right";
+
+      if (!title) return null;
+
+      return (
+        <div
+          className={
+            `px-2 py-1 text-sm font-medium rounded flex ${isVertical ? "flex-col items-center leading-[0.95]" : "items-center justify-center"
+            }`
+          }
+          style={{
+            backgroundColor: bgTitleColor,
+            color: titleColor,
+          }}
+        >
+          {isVertical
+            ? [...title].map((char, index) => (
+              <span key={index}>{char}</span>
+            ))
+            : title}
+        </div>
+      );
+    }
+
 
     const qrCode = (
       <QRStylingWrapper
@@ -65,18 +89,26 @@ const QRPreview = forwardRef<HTMLDivElement, QRPreviewProps>(
         logoUrl={logoUrl}
         logoSize={logoSize}
         logoMargin={logoMargin}
-        logoRadius={logoRadius}
         dotsType={dotsType}
         cornerSquareType={cornerSquareType}
         cornerDotType={cornerDotType}
         dotsColor={dotsColor}
         cornerSquareColor={cornerSquareColor}
         cornerDotColor={cornerDotColor}
-        logoBackground={logoBackground}
       />
     );
 
-    if (!selectedFrame) return qrCode;
+    if (!selectedFrame) return (
+      <div
+        className={`flex items-center justify-center ${titlePosition === "left" || titlePosition === "right" ? "flex-row" : "flex-col"}`}
+      >
+        {titlePosition === "top" && <Title />}
+        {titlePosition === "left" && <Title />}
+        {qrCode}
+        {titlePosition === "bottom" && <Title />}
+        {titlePosition === "right" && <Title />}
+      </div>
+    );
 
     const sharedProps = {
       title: title ?? "",
@@ -87,11 +119,19 @@ const QRPreview = forwardRef<HTMLDivElement, QRPreviewProps>(
 
     return selectedFrame === "editable" ? (
       <EditableFrame {...sharedProps}>
-        {qrCode}
+        <div className="flex flex-col items-center">
+          {titlePosition === "top" && <Title />}
+          {qrCode}
+          {titlePosition === "bottom" && <Title />}
+        </div>
       </EditableFrame>
     ) : (
       <DynamicFrame frameName={selectedFrame} {...sharedProps}>
-        {qrCode}
+        <div className="flex flex-col items-center">
+          {titlePosition === "top" && <Title />}
+          {qrCode}
+          {titlePosition === "bottom" && <Title />}
+        </div>
       </DynamicFrame>
     );
   }

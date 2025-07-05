@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import QRVCardForm from "./QRVCard/QRVCardForm";
 import QRVCardSelector from "./QRVCard/QRVCardSelector";
 import { buildVCard } from "./QRVCard/QRVCardFunctions";
-import type { QRFormType } from "@types/qrFormTypes";
+import type { QRFormType } from "@/types/qrFormTypes";
 
 export type QRType = "text" | "url" | "email" | "wifi" | "vCard";
 
@@ -56,7 +56,7 @@ export default function QRContentOptions({
     onValueChange(ensureMinimumQRLength(content.trim()));
   }, [form, qrType, visibleFields]);
 
-  const inputClass = "p-2 w-full border rounded dark:bg-stone-800";
+  const inputClass = "w-full text-sm px-2 py-1 border border-stone-300 rounded-md focus:outline-none";
 
   return (
     <div className="space-y-4">

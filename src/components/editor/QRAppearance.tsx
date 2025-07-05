@@ -1,5 +1,5 @@
 import { HexColorPicker } from "react-colorful";
-import ColorPickerPopover from "./ColorPickerPopover.tsx";
+import ColorPickerPopover from "../../utils/ColorPickerPopover.tsx";
 
 interface QRAppearanceProps {
   bgColor: string;

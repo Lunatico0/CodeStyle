@@ -18,7 +18,7 @@ export default function QRContent({
     text: "QRstyles",
     email: { to: "", subject: "", body: "" },
     wifi: { ssid: "", password: "", type: "WPA", hidden: false },
-    vcard: { name: "", phone: "", company: "", email: "" },
+    vCard: { name: "", phone: "", company: "", email: "" },
   });
 
   useEffect(() => {
@@ -39,8 +39,8 @@ export default function QRContent({
         const w = form.wifi;
         content = `WIFI:T:${w.type};S:${w.ssid};P:${w.password};${w.hidden ? "H:true;" : ""};`;
         break;
-      case "vcard":
-        const v = form.vcard;
+      case "vCard":
+        const v = form.vCard;
         content = `BEGIN:VCARD
           VERSION:3.0
           FN:${v.name}
@@ -60,7 +60,7 @@ export default function QRContent({
     <div className="space-y-4">
       {/* Selector de tipo */}
       <div className="flex flex-wrap gap-2">
-        {(["url", "text", "email", "wifi", "vcard"] as QRType[]).map((type) => (
+        {(["url", "text", "email", "wifi", "vCard"] as QRType[]).map((type) => (
           <button
             key={type}
             onClick={() => setQrType(type)}
@@ -151,30 +151,30 @@ export default function QRContent({
         </>
       )}
 
-      {qrType === "vcard" && (
+      {qrType === "vCard" && (
         <>
           <input
-            value={form.vcard.name}
-            onChange={(e) => setForm({ ...form, vcard: { ...form.vcard, name: e.target.value } })}
+            value={form.vCard.name}
+            onChange={(e) => setForm({ ...form, vCard: { ...form.vCard, name: e.target.value } })}
             placeholder="Nombre completo"
             className={inputClass}
           />
           <input
-            value={form.vcard.phone}
-            onChange={(e) => setForm({ ...form, vcard: { ...form.vcard, phone: e.target.value } })}
+            value={form.vCard.phone}
+            onChange={(e) => setForm({ ...form, vCard: { ...form.vCard, phone: e.target.value } })}
             placeholder="Teléfono"
             className={inputClass}
           />
           <input
-            value={form.vcard.company}
-            onChange={(e) => setForm({ ...form, vcard: { ...form.vcard, company: e.target.value } })}
+            value={form.vCard.company}
+            onChange={(e) => setForm({ ...form, vCard: { ...form.vCard, company: e.target.value } })}
             placeholder="Empresa"
             className={inputClass}
           />
           <input
             type="email"
-            value={form.vcard.email}
-            onChange={(e) => setForm({ ...form, vcard: { ...form.vcard, email: e.target.value } })}
+            value={form.vCard.email}
+            onChange={(e) => setForm({ ...form, vCard: { ...form.vCard, email: e.target.value } })}
             placeholder="Email"
             className={inputClass}
           />

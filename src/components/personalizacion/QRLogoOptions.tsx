@@ -1,30 +1,21 @@
 import type { ChangeEvent } from "react";
-import ColorPickerPopover from "@editor/ColorPickerPopover";
 
 interface QRLogoOptionsProps {
   logoUrl: string | null;
-  setLogoUrl: (url: string | null) => void;
   logoSize: number;
-  setLogoSize: (val: number) => void;
   logoMargin: number;
+  setLogoUrl: (url: string | null) => void;
+  setLogoSize: (val: number) => void;
   setLogoMargin: (val: number) => void;
-  logoRadius: number;
-  setLogoRadius: (val: number) => void;
-  logoBackground: string;
-  setLogoBackground: (color: string) => void;
 }
 
 export default function QRLogoOptions({
   logoUrl,
-  setLogoUrl,
   logoSize,
-  setLogoSize,
   logoMargin,
+  setLogoUrl,
+  setLogoSize,
   setLogoMargin,
-  logoRadius,
-  setLogoRadius,
-  logoBackground,
-  setLogoBackground,
 }: QRLogoOptionsProps) {
   const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -89,29 +80,6 @@ export default function QRLogoOptions({
           className="w-full accent-brand-light"
         />
       </div>
-
-      {/* 🔲 Radio del logo */}
-      <div>
-        <label className="block text-sm font-medium text-brand-text">
-          Bordes redondeados: <span className="font-semibold">{logoRadius}%</span>
-        </label>
-        <input
-          type="range"
-          min={0}
-          max={50}
-          step={1}
-          value={logoRadius}
-          onChange={(e) => setLogoRadius(parseInt(e.target.value))}
-          className="w-full accent-brand-light"
-        />
-      </div>
-
-      {/* 🎨 Fondo del logo */}
-      <ColorPickerPopover
-        label="Color de fondo del logo"
-        color={logoBackground}
-        onChange={setLogoBackground}
-      />
     </div>
   );
 }

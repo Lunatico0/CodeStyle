@@ -1,10 +1,12 @@
-import { useState, useRef } from "react";
-import AccordionSection, { AccordionProvider } from "@editor/AccordionSection";
+import { useState, useRef, useEffect } from "react";
+import AccordionSection, { AccordionProvider } from "@utils/AccordionSection";
+import { normalizeImg } from "@utils/normalizeImg";
 import QRPreview from "@components/preview/QRPreview";
 import QRLogoOptions from "@components/personalizacion/QRLogoOptions.tsx";
 import QRStyleOptions from "@components/personalizacion/QRStyleOptions.tsx";
 import QRSizeOptions from "@components/personalizacion/QRSizeOptions.tsx";
 import QRContentOptions, { type QRType } from "@components/personalizacion/QRContentOptions.tsx";
+import QRTitleOptions from "@components/personalizacion/QRTitleOptions.tsx";
 
 export default function QRCustomizer() {
   const [qrValue, setQrValue] = useState("https://pittanapatricio.vercel.app");
@@ -53,23 +55,34 @@ export default function QRCustomizer() {
   const [logoUrl, setLogoUrl] = useState<string | null>(null);
   const [logoSize, setLogoSize] = useState(120);
   const [logoMargin, setLogoMargin] = useState(4);
-  const [logoRadius, setLogoRadius] = useState(0);
 
-  const [title, setTitle] = useState("QRStyles");
-  const [showTitle, setShowTitle] = useState(true);
+  const [title, setTitle] = useState<string | null>(null);
+  const [showTitle, setShowTitle] = useState(false);
   const [titleColor, setTitleColor] = useState("#ffffff");
   const [bgTitleColor, setBgTitleColor] = useState("#1f2937");
-  const [logoBackground, setLogoBackground] = useState("#ffffff");
+  const [titlePosition, setTitlePosition] = useState<"top" | "bottom" | "left" | "right">("top")
   const [selectedFrame, setSelectedFrame] = useState<string | null>(null);
 
+
   const qrRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (logoUrl) {
+      normalizeImg(logoUrl).then(({ scaleFactor, limited }) => {
+        if (limited) {
+          const adjustedSize = Math.floor(logoSize * scaleFactor);
+          setLogoSize(adjustedSize);
+        }
+      });
+    }
+  }, [logoUrl]);
 
   function handleQrDataChange(value: string): void {
     setQrValue(value);
   }
 
   return (
-    <div className="flex flex-col-reverse md:flex-row md:items-start gap-8 md:gap-12 w-full justify-between items-center">
+    <div className="flex flex-col-reverse md:flex-row md:items-start gap-8 md:gap-12 w-full justify-evenly items-center">
       <QRPreview
         value={qrValue}
         bgColor={bgColor}
@@ -78,18 +91,17 @@ export default function QRCustomizer() {
         logoUrl={logoUrl ?? undefined}
         logoSize={logoSize}
         logoMargin={logoMargin}
-        logoRadius={logoRadius}
         dotsType={dotsType}
         cornerSquareType={cornerSquareType}
         cornerDotType={cornerDotType}
-        title={showTitle ? title : undefined}
+        title={title}
         titleColor={titleColor}
+        titlePosition={titlePosition}
         bgTitleColor={bgTitleColor}
         selectedFrame={selectedFrame}
         dotsColor={dotsColor}
         cornerSquareColor={cornerSquareColor}
         cornerDotColor={cornerDotColor}
-        logoBackground={logoBackground}
       />
 
       <div className="flex flex-col items-center gap-4">
@@ -129,15 +141,11 @@ export default function QRCustomizer() {
           <AccordionSection title="🖼️ Logo Opcional">
             <QRLogoOptions
               logoUrl={logoUrl}
-              setLogoUrl={setLogoUrl}
               logoSize={logoSize}
-              setLogoSize={setLogoSize}
               logoMargin={logoMargin}
+              setLogoUrl={setLogoUrl}
+              setLogoSize={setLogoSize}
               setLogoMargin={setLogoMargin}
-              logoRadius={logoRadius}
-              setLogoRadius={setLogoRadius}
-              logoBackground={logoBackground}
-              setLogoBackground={setLogoBackground}
             />
           </AccordionSection>
 
@@ -156,7 +164,18 @@ export default function QRCustomizer() {
 
           {/* 🏷️ Título */}
           <AccordionSection title="🏷️ Título Opcional">
-            <h2>toggle mostrar, input título, color título y fondo</h2>
+            <QRTitleOptions
+              showTitle={showTitle}
+              setShowTitle={setShowTitle}
+              title={title}
+              setTitle={setTitle}
+              titleColor={titleColor}
+              setTitleColor={setTitleColor}
+              bgTitleColor={bgTitleColor}
+              setBgTitleColor={setBgTitleColor}
+              titlePosition={titlePosition}
+              setTitlePosition={setTitlePosition}
+            />
           </AccordionSection>
 
           {/* 🔢 Contenido */}

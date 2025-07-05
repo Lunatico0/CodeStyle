@@ -1,5 +1,5 @@
 import type { ChangeEvent } from "react";
-import ColorPickerPopover from "./ColorPickerPopover";
+import ColorPickerPopover from "../../utils/ColorPickerPopover";
 
 interface QRLogoOptionsProps {
   logoUrl: string | null;

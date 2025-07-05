@@ -1,5 +1,4 @@
-import { HexColorPicker } from "react-colorful";
-import ColorPickerPopover from "@editor/ColorPickerPopover.tsx";
+import ColorPickerPopover from "@utils/ColorPickerPopover";
 
 interface QRStyleOptionsProps {
   bgColor: string;
@@ -83,18 +82,6 @@ export default function QRStyleOptions({
     </div>
   );
 
-  const renderColor = (label: string, value: string, setValue: (val: string) => void) => (
-    <div className="space-y-1">
-      <label className="block text-sm font-medium">{label}</label>
-      <HexColorPicker color={value} onChange={setValue} />
-    </div>
-  );
-  {/* <input
-        type="color"
-        value={value}
-        onChange={}
-        className="w-full h-10 p-1 rounded border border-gray-300 bg-transparent"
-      /> */}
   return (
     <div className="grid grid-cols-2 gap-4">
       <ColorPickerPopover

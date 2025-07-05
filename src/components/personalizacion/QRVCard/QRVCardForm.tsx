@@ -1,4 +1,4 @@
-import type { VCardFormType } from "@types/vCardFormType";
+import type { VCardFormType } from "@/types/vCardFormType";
 
 interface Props {
   form: VCardFormType;
@@ -7,7 +7,7 @@ interface Props {
 }
 
 export default function QRVCardForm({ form, setForm, visibleFields }: Props) {
-  const inputClass = "p-2 w-full border rounded dark:bg-stone-800";
+  const inputClass = "w-full text-sm px-2 py-1 border border-stone-300 rounded-md focus:outline-none";
 
   const renderInput = (key: keyof VCardFormType, label: string) => (
     <input

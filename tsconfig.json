@@ -13,6 +13,9 @@
       "@styles/*": [
         "src/styles/*"
       ],
+      "@/*": [
+        "src/*"
+      ],
       "@layouts/*": [
         "src/layouts/*"
       ],
@@ -21,6 +24,9 @@
       ],
       "@components/*": [
         "src/components/*"
+      ],
+      "@utils/*": [
+        "src/utils/*"
       ],
       "@editor/*": [
         "src/components/editor/*"

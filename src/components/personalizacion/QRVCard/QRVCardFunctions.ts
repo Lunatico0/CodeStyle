@@ -1,4 +1,4 @@
-import type { VCardFormType } from "@types/vCardFormType";
+import type { VCardFormType } from "@/types/vCardFormType";
 
 export function cleanValues<T extends Record<string, string>>(data: T): T {
   return Object.fromEntries(

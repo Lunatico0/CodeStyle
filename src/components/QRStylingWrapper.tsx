@@ -19,8 +19,6 @@ interface QRStylingWrapperProps {
   logoUrl?: string;
   logoSize?: number;
   logoMargin?: number;
-  logoRadius?: number;
-  logoBackground?: string;
 }
 
 export default forwardRef<HTMLDivElement, QRStylingWrapperProps>(function QRStylingWrapper({
@@ -35,8 +33,6 @@ export default forwardRef<HTMLDivElement, QRStylingWrapperProps>(function QRStyl
   logoUrl,
   logoSize = 60,
   logoMargin = 4,
-  logoRadius = 0,
-  logoBackground,
   dotsColor,
   cornerSquareColor,
   cornerDotColor,
@@ -72,9 +68,7 @@ export default forwardRef<HTMLDivElement, QRStylingWrapperProps>(function QRStyl
       crossOrigin: "anonymous",
       hideBackgroundDots: !!logoUrl,
       imageSize: logoSize / size,
-      margin: padding / size,
-      ...(logoRadius && { borderRadius: `${logoRadius}%` }),
-      ...(logoBackground && { backgroundColor: logoBackground }),
+      margin: logoMargin,
     },
   });
 
@@ -111,8 +105,6 @@ export default forwardRef<HTMLDivElement, QRStylingWrapperProps>(function QRStyl
     logoUrl,
     logoSize,
     logoMargin,
-    logoRadius,
-    logoBackground,
   ]);
 
   return (

@@ -51,4 +51,5 @@
     \---styles
             global.css
 
-Faltante titulo, frames, shape (poder redondear el qr)
+Faltante frames, shape (poder redondear el qr)
+Falta agregar edicion de texto en Title Ej: rotacion, fuente, tamaño, padding, etc, etc
